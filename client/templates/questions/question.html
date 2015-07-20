@@ -1,0 +1,20 @@
+<template name="question">
+  <div class="question">
+    <div class="question-content">
+      <h1 class="flow-text">{{text}}</h1>
+      <form id="response-form">
+        {{#each choices}}
+          <p class="answerChoice">
+            <input type="radio" name="choice" id="{{this}}">
+            <label for="{{this}}">{{this}}</label>
+          </p>
+        {{/each}}
+        <button class="btn waves-effect waves-light" type="submit" form="response-form">
+          Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+    </div>
+  </div>
+  
+</template>

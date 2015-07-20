@@ -1,0 +1,7 @@
+body{
+  min-width: 450px;
+}
+
+nav .nav-wrapper .brand-logo {
+  padding-left: 20px;
+}
