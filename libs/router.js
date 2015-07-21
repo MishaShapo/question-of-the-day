@@ -14,10 +14,13 @@ var requireLogin = function(){
 Router.configure({
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
-  waitOn: function() {return [subs.subscribe('questions')];}
+  waitOn: function() {return subs.subscribe('questions');}
 });
 
-Router.route('/', {name: 'question'});
+Router.route('/', {
+  name: 'question',
+  data: function(){ return Questions.findOne();}
+});
 
 
 

@@ -1,9 +1,3 @@
-Template.question.onRendered(function (){
-});
-
-Template.question.helpers({
-});
-
 Template.question.events({
   'submit form': function(e){
     e.preventDefault();
