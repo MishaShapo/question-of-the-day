@@ -1,7 +1,7 @@
 <template name="question">
   <div class="question">
     <div class="question-content">
-      <h1 class="flow-text">{{text}}</h1>
+      <h1>{{text}}</h1>
       <form id="response-form">
         {{#each choices}}
           <p class="answerChoice">
@@ -9,9 +9,9 @@
             <label for="{{this}}">{{this}}</label>
           </p>
         {{/each}}
-        <button class="btn waves-effect waves-light" type="submit" form="response-form">
-          Submit
-          <i class="material-icons right">send</i>
+        <button class="btn btn-primary" type="submit" form="response-form">
+          <span>Submit  </span>  
+          <span class="glyphicon glyphicon-send"></span>
         </button>
       </form>
     </div>

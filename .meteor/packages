@@ -11,7 +11,8 @@ accounts-password
 dburles:collection-helpers
 aldeed:collection2
 alanning:roles
-materialize:materialize
 meteorhacks:subs-manager
-accounts-ui
 u2622:persistent-session
+twbs:bootstrap
+ian:accounts-ui-bootstrap-3
+yogiben:admin

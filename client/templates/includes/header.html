@@ -1,29 +1,25 @@
 <template name="header">
-  <header role="navigation">
-    <nav>
-      <div class="nav-wrapper">
-        <a href="{{pathFor 'question'}}" class="brand-logo">Misha's Question of the Day</a>
-        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{pathFor 'question'}}">Misha's Question of the Day</a>
+      </div>
+      
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="nav navbar-nav">    
           <li><a href="{{pathFor 'myProfile'}}">My Profile</a></li>
           <li><a href="{{pathFor 'suggestAQuestion'}}">Suggest a Question</a></li>
           <li><a href="{{pathFor 'leaderboards'}}">Leaderboards</a></li>
           <li><a href="{{pathFor 'aboutContact'}}">About/Contact</a></li>
         </ul>
-             
-        <ul class="side-nav" id="mobile-nav">
-          <li><a href="{{pathFor 'myProfile'}}">My Profile</a></li>
-          <li><a href="{{pathFor 'suggestAQuestion'}}">Suggest a Question</a></li>
-          <li><a href="{{pathFor 'leaderboards'}}">Leaderboards</a></li>
-          <li><a href="{{pathFor 'aboutContact'}}">About/Contact</a></li>
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}}
         </ul>
-        
-        <ul class="right">
-          {{> loginButtons}} 
-        </ul>
-        
       </div>
     </nav> 
-  </header>
 </template>

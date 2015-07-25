@@ -1,3 +1,10 @@
+Template.question.onRendered(function (){
+  if(Session.get('alreadyAnswered')){
+    $('.answerChoice input:radio').attr('disabled',true);
+    $('button[form="response-form"]').attr('disabled',true);
+  }
+});
+
 Template.question.events({
   'submit form': function(e){
     e.preventDefault();
@@ -7,9 +14,16 @@ Template.question.events({
       return throwError('Please select an answer');
     }
     
-    $('.answerChoice input:radio').attr('disabled',true);
+    
     
     console.log('answer : ' + answer);
-    Meteor.call('validateAnswer',answer);
+    Meteor.call('validateAnswer',answer, function(error, result){
+      if(!error){
+        $('.answerChoice input:radio').attr('disabled',true);
+        $('button[form="response-form"]').attr('disabled',true);
+        Session.setDefaultPersistent('alreadyAnswered',true);
+      }
+      console.log("result : " + result);
+    });
   }
 });
