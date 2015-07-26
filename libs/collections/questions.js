@@ -6,7 +6,25 @@ Meteor.methods({
     check(answer,String);
     
     var question = Questions.findOne({date: new Date().toDateString()});
-    return question.choices[question.correctChoice] === answer;
+    var correct = question.choices[question.correctChoice] === answer;
+    var userId = Meteor.userId();
+    var questionUpdateObj = {$inc : {}};
+    var userUpdateObj = {$inc : {}};
+    if(correct){
+      questionUpdateObj['$inc']['statistics.totalCorrectAnswers'] = 1;
+      if(userId){
+        questionUpdateObj['$inc']['statistics.userCorrectAnswers'] = 1;
+      }
+    } else {
+      questionUpdateObj['$inc']['statistics.totalWrongAnswers'] = 1;
+      if(userId){
+        questionUpdateObj['$inc']['statistics.userWrongAnswers'=] = 1;
+      }
+    }
+    Questions.update(questionUpdateObj);
+                                  
+    
+    return correct;
   }
 });
 
@@ -116,20 +134,42 @@ Schemas.UserStatistics = new SimpleSchema({
   "longestStreak.dateStarted" : {
     type: Date,
     label: "Date Streak Began",
-    autoValue: Schemas.zeroOrInc
+    autoValue: function() {
+      var curStreak = this.field('longestStreak.currentStreak');
+      var oldStreak = this.field('longestStreak.oldStreak');
+      if(curStreak !== undefined && oldStreak !== undefined){
+        if(curStreak >= oldStreak){
+          var newDate = new Date();
+          newDate.setDate(newDate.getDate() - curStreak);
+          return newDate;
+        }
+      }
+    }
   },
-  "longestStreak.numDays": {
+  "longestStreak.oldStreak": {
     type: Number,
-    label: "Longest Streak Days",
+    label: "Longest Streak im Days",
     min: 0,
-    autoValue: Schemas.zeroOrInc
+    autoValue: function() {
+      var curStreak = this.field('longestStreak.currentStreak');
+      var oldStreak = this.field('longestStreak.oldStreak');
+      if(curStreak !== undefined && oldStreak !== undefined){
+        return (curStreak >= oldStreak) ? curStreak : oldStreak;
+      }
+      //implicitly return undefined
+    }
+  },
+  "longestStreak.currentStreak": {
+    type: Number,
+    label: "Current Streak in Days",
+    min: 0,
+    optional: true
   },
   totalQuestionsAnswered: {
     type: Number,
     label: "Total Number of Answered Questions",
     autoValue: Schemas.zeroOrInc
   }
-  
 });
 
 Schemas.Tags = new SimpleSchema({
