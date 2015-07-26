@@ -10,5 +10,8 @@ AdminConfig = {
       ]
     }
   },
-  userSchema: Schemas.User
+  userSchema: Schemas.User,
+  autoForm: {
+    omitFields: ['statistics','createdAt']
+  }
 }

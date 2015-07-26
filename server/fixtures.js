@@ -34,4 +34,11 @@ if(Questions.find().count() === 0){
     correctChoice: 1,
     date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2).toDateString()
   });
+  
+  var tags = [
+    {name: 'Math'},
+    {name:'Science'},
+    {name: 'History'},
+    {name:'Literature'}
+  ]
 }

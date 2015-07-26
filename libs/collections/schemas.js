@@ -1,6 +1,9 @@
 Questions = new Mongo.Collection('questions');
 //Questions.attachSchema(Schemas.Questions);
 
+Tags = new Mongo.Collection('tags');
+//Tags.attachSchema(Schemas.Tags);
+
 Meteor.methods({
   validateAnswer: function(answer){
     check(answer,String);
@@ -9,7 +12,7 @@ Meteor.methods({
     var correct = question.choices[question.correctChoice] === answer;
     var userId = Meteor.userId();
     var questionUpdateObj = {$inc : {}};
-    var userUpdateObj = {$inc : {}};
+    var userUpdateObj = {$inc : {}, $addToSet: {}};
     if(correct){
       questionUpdateObj['$inc']['statistics.totalCorrectAnswers'] = 1;
       if(userId){
@@ -18,11 +21,26 @@ Meteor.methods({
     } else {
       questionUpdateObj['$inc']['statistics.totalWrongAnswers'] = 1;
       if(userId){
-        questionUpdateObj['$inc']['statistics.userWrongAnswers'=] = 1;
+        questionUpdateObj['$inc']['statistics.userWrongAnswers'] = 1;
       }
     }
     Questions.update(questionUpdateObj);
-                                  
+    
+    if(userId){
+      userUpdateObj['$addToSet']['statistics.Tags'] = {$each: question.tags.map(function(t){
+        return {
+          name: t.name,
+          correct: (correct) ? 1 : 0,
+          wrong: (correct) ? 0 : 1
+        }
+      })};
+      userUpdateObj['$inc']['statistics.totalQuestionsAnswered'] = 1;
+      if(correct){
+        userUpdateObj['$inc']['statistics.longestStreak.currentStreak'] = 1;
+      }
+     Meteor.users.update(userId,userUpdateObj,{upsert:true}); 
+    }
+    
     
     return correct;
   }
@@ -33,7 +51,7 @@ var Schemas = {};
 Schemas.Questions = new SimpleSchema({
   text: {
     type: String,
-    label: "Text",
+    label: "Text"
   },
   choices: {
     type: [String],
@@ -48,9 +66,16 @@ Schemas.Questions = new SimpleSchema({
     max: 3
   },
   tags: {
-    type: [String],
+    type: [Schemas.Tags],
     label: "Tags",
-    minCount: 1
+    minCount: 1,
+    autoForm: {
+      options: function() {
+        return Tags.find().map(function(t){
+          return {label: t.name, value: t._id};
+        });
+      }
+    }
   },
   statistics: {
     type: Schemas.QuestionStatistics,
@@ -124,7 +149,8 @@ Schemas.User = new SimpleSchema({
 Schemas.UserStatistics = new SimpleSchema({
   tags: {
     type: [Schemas.Tags],
-    label: "Tags"
+    label: "Tags",
+    optional: true
   },
   longestStreak: {
     type: Object,
@@ -137,8 +163,8 @@ Schemas.UserStatistics = new SimpleSchema({
     autoValue: function() {
       var curStreak = this.field('longestStreak.currentStreak');
       var oldStreak = this.field('longestStreak.oldStreak');
-      if(curStreak !== undefined && oldStreak !== undefined){
-        if(curStreak >= oldStreak){
+      if(curStreak !== undefined){
+        if(curStreak >= oldStreak || oldStreak === undefined){
           var newDate = new Date();
           newDate.setDate(newDate.getDate() - curStreak);
           return newDate;
@@ -153,10 +179,15 @@ Schemas.UserStatistics = new SimpleSchema({
     autoValue: function() {
       var curStreak = this.field('longestStreak.currentStreak');
       var oldStreak = this.field('longestStreak.oldStreak');
-      if(curStreak !== undefined && oldStreak !== undefined){
-        return (curStreak >= oldStreak) ? curStreak : oldStreak;
+      if(curStreak !== undefined){
+        if(oldStreak !== undefined){
+          return (curStreak >= oldStreak) ? curStreak : oldStreak;
+        } else {
+          return curStreak;
+        }
+      } else {
+        this.unset();
       }
-      //implicitly return undefined
     }
   },
   "longestStreak.currentStreak": {
