@@ -1,5 +1,5 @@
 AdminConfig = {
-  name: 'Misha's Question of the Day'',
+  name: "Misha's Question of the Day",
   adminEmails: ['misha.shapo98@gmail.com'],
   collections: {
     Questions: {

@@ -1,3 +1,15 @@
+if(Tags.find().count() === 0){
+ var tags = [
+    {name: 'Math'},
+    {name:'Science'},
+    {name: 'History'},
+    {name:'Literature'}
+  ];
+  for(var i = 0; i < tags.length; i++){
+    Tags.insert(tags[i],{modifier: true});
+  }
+}
+
 if(Questions.find().count() === 0){
   Questions.insert({
     text: 'What is the capitol of the US?',
@@ -9,7 +21,7 @@ if(Questions.find().count() === 0){
     ],
     correctChoice: 2,
     date: new Date().toDateString()
-  });
+  },{modifier: true});
   
   Questions.insert({
     text: 'Who invented the light bulb?',
@@ -21,7 +33,7 @@ if(Questions.find().count() === 0){
     ],
     correctChoice: 3,
     date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1).toDateString()
-  });
+  },{modifier: true});
   
   Questions.insert({
     text: "What is the vlogbrother's salutation?",
@@ -33,12 +45,7 @@ if(Questions.find().count() === 0){
     ],
     correctChoice: 1,
     date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2).toDateString()
-  });
-  
-  var tags = [
-    {name: 'Math'},
-    {name:'Science'},
-    {name: 'History'},
-    {name:'Literature'}
-  ]
+  },{modifier: true});
+  console.log('added 3 questions');
+  console.log('Questions.count : ' +  Questions.find().count());
 }

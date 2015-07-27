@@ -5,7 +5,7 @@
       <form id="response-form">
         {{#each choices}}
           <p class="answerChoice">
-            <input type="radio" name="choice" id="{{this}}">
+            <input type="radio" name="choice" id="{{index this}}">
             <label for="{{this}}">{{this}}</label>
           </p>
         {{/each}}
