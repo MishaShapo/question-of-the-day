@@ -1,4 +1,4 @@
-Template.question.onRendered(function (){
+Template.question.onCreated(function (){
   var responseData = Session.get('responseData');
   if(responseData){
     if(responseData.curQuestionDate !== new Date().toDateString()){
@@ -15,6 +15,13 @@ Template.question.onRendered(function (){
       $('button[form="response-form"]').attr('disabled',true);
     }
   }
+  
+  var self = this;
+  self.ready = new ReactiveVar();
+  self.autorun(function() {
+    var handle = QuestionSubs.subscribe('questions');
+    self.ready.set(handle.ready());
+  });
 });
 
 Template.question.events({
@@ -49,5 +56,11 @@ Template.question.events({
 Template.question.helpers({
   index: function (str){
     return "choice_" + Questions.findOne().choices.indexOf(str);
-  } 
+  },
+  subReady : function(){
+    return Template.instance().ready.get();
+  },
+  question: function(){
+    return Questions.findOne();
+  }
 });

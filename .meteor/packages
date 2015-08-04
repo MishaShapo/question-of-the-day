@@ -5,7 +5,6 @@
 # but you can also edit it by hand.
 
 meteor-platform
-iron:router
 sacha:spin
 accounts-password
 dburles:collection-helpers
@@ -15,4 +14,7 @@ meteorhacks:subs-manager
 u2622:persistent-session
 twbs:bootstrap
 ian:accounts-ui-bootstrap-3
-yogiben:admin
+kadira:flow-router
+kadira:blaze-layout
+reactive-var
+arillo:flow-router-helpers
