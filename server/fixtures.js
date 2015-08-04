@@ -1,3 +1,17 @@
+if(Tags.find().count() === 0){
+ var tags = [
+    {name: 'Math', correct: 0, wrong: 0},
+    {name:'Science', correct: 0, wrong: 0},
+    {name: 'History', correct: 0, wrong: 0},
+    {name:'Literature', correct: 0, wrong: 0}
+  ];
+  for(var i = 0; i < tags.length; i++){
+    Tags.insert(tags[i]);
+  }
+  console.log('added 4 tags');
+  console.log('Tags.count : ' + Tags.find().count());
+}
+
 if(Questions.find().count() === 0){
   Questions.insert({
     text: 'What is the capitol of the US?',
@@ -8,8 +22,9 @@ if(Questions.find().count() === 0){
       'New York City'
     ],
     correctChoice: 2,
-    date: new Date().toDateString()
-  });
+    date: new Date().toDateString(),
+    tag: 'History'
+  },{modifier: true});
   
   Questions.insert({
     text: 'Who invented the light bulb?',
@@ -20,8 +35,9 @@ if(Questions.find().count() === 0){
       'Thomas Edison'
     ],
     correctChoice: 3,
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1).toDateString()
-  });
+    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1).toDateString(),
+    tag: 'Science'
+  },{modifier: true});
   
   Questions.insert({
     text: "What is the vlogbrother's salutation?",
@@ -32,13 +48,9 @@ if(Questions.find().count() === 0){
       'Take care. Bye now.'
     ],
     correctChoice: 1,
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2).toDateString()
-  });
-  
-  var tags = [
-    {name: 'Math'},
-    {name:'Science'},
-    {name: 'History'},
-    {name:'Literature'}
-  ]
+    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2).toDateString(),
+    tag: 'Literature' 
+  },{modifier: true});
+  console.log('added 3 questions');
+  console.log('Questions.count : ' +  Questions.find().count());
 }

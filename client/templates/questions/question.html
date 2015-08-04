@@ -1,20 +1,25 @@
 <template name="question">
-  <div class="question">
-    <div class="question-content">
-      <h1>{{text}}</h1>
-      <form id="response-form">
-        {{#each choices}}
-          <p class="answerChoice">
-            <input type="radio" name="choice" id="{{this}}">
-            <label for="{{this}}">{{this}}</label>
-          </p>
-        {{/each}}
-        <button class="btn btn-primary" type="submit" form="response-form">
-          <span>Submit  </span>  
-          <span class="glyphicon glyphicon-send"></span>
-        </button>
-      </form>
-    </div>
-  </div>
-  
+ {{#if subReady}}
+   {{#with question}}
+      <div class="question">
+        <div class="question-content">
+          <h1>{{text}}</h1>
+          <form id="response-form">
+            {{#each choices}}
+              <p class="answerChoice">
+                <input type="radio" name="choice" id="{{index this}}">
+                <label for="{{this}}">{{this}}</label>
+              </p>
+            {{/each}}
+            <button class="btn btn-primary" type="submit" form="response-form">
+              <span>Submit  </span>  
+              <span class="glyphicon glyphicon-send"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    {{/with}}
+ {{else}}
+   {{> loading}}
+ {{/if}}
 </template>
