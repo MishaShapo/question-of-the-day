@@ -1,4 +1,14 @@
 Template.question.onCreated(function (){
+  var self = this;
+  self.ready = new ReactiveVar();
+  self.correct = new ReactiveVar();
+  self.autorun(function() {
+    var handle = QuestionSubs.subscribe('singleQuestion');
+    self.ready.set(handle.ready());
+  });
+});
+
+Template.question.onRendered(function() {
   var responseData = Session.get('responseData');
   if(responseData){
     if(responseData.curQuestionDate !== new Date().toDateString()){
@@ -8,20 +18,8 @@ Template.question.onCreated(function (){
         userChoiceID: undefined
       });
     }
-    responseData = Session.get('responseData');
-    if(responseData.alreadyAnswered){
-      $('.answerChoice input:radio').attr('disabled',true);
-      $('#' + Session.get('responseData').userChoiceID).attr('checked',true);
-      $('button[form="response-form"]').attr('disabled',true);
-    }
   }
   
-  var self = this;
-  self.ready = new ReactiveVar();
-  self.autorun(function() {
-    var handle = QuestionSubs.subscribe('questions');
-    self.ready.set(handle.ready());
-  });
 });
 
 Template.question.events({
@@ -34,12 +32,10 @@ Template.question.events({
       return throwError('Please select an answer');
     }
     
-    console.log('answer : ' + answer);
     var self = this;
+    var instance = Template.instance();
     Meteor.call('validateAnswer',answer, function(error, result){
       if(!error){
-        $('.answerChoice input:radio').attr('disabled',true);
-        $('button[form="response-form"]').attr('disabled',true);
           Session.setPersistent('responseData',{
             alreadyAnswered: true,
             curQuestionDate: self.date,
@@ -48,7 +44,7 @@ Template.question.events({
       } else{
         throw new Meteor.Error(error.message);
       }
-      console.log("result : " + result);
+      instance.correct.set(result);
     });
   }
 });
@@ -62,5 +58,20 @@ Template.question.helpers({
   },
   question: function(){
     return Questions.findOne();
+  },
+  correct: function(){
+    return Template.instance().correct.get();
+  },
+  alreadyAnswered: function(){
+    var responseData = Session.get('responseData');
+    return responseData && responseData.alreadyAnswered;
+  },
+  disableProp : function() {
+    var responseData = Session.get('responseData');
+    if(responseData && responseData.alreadyAnswered){
+      return 'disabled'
+    } else {
+      return '';
+    }
   }
 });

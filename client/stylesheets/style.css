@@ -5,3 +5,8 @@ body{
 nav .nav-wrapper .brand-logo {
   padding-left: 20px;
 }
+
+input[type="radio"][disabled] + label {
+  opacity: 0.4;
+  filter: opacity(0.4);
+}
