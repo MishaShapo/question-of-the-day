@@ -1,7 +1,6 @@
 Template.question.onCreated(function (){
   var self = this;
   self.ready = new ReactiveVar();
-  self.correct = new ReactiveVar();
   self.autorun(function() {
     var handle = QuestionSubs.subscribe('singleQuestion');
     self.ready.set(handle.ready());
@@ -13,7 +12,7 @@ Template.question.onRendered(function() {
   if(responseData){
     if(responseData.curQuestionDate !== new Date().toDateString()){
       Session.setPersistent('responseData',{
-        alreadyAnswered: false,
+        userCorrect: undefined,
         curQuestionDate: undefined,
         userChoiceID: undefined
       });
@@ -37,14 +36,13 @@ Template.question.events({
     Meteor.call('validateAnswer',answer, function(error, result){
       if(!error){
           Session.setPersistent('responseData',{
-            alreadyAnswered: true,
+            userCorrect: result,
             curQuestionDate: self.date,
             userChoiceID : choiceID 
           });
       } else{
-        throw new Meteor.Error(error.message);
+        throw new Meteor.Error(error.reason);
       }
-      instance.correct.set(result);
     });
   }
 });
@@ -59,16 +57,17 @@ Template.question.helpers({
   question: function(){
     return Questions.findOne();
   },
-  correct: function(){
-    return Template.instance().correct.get();
-  },
-  alreadyAnswered: function(){
+  alreadyAnswered : function(){
     var responseData = Session.get('responseData');
-    return responseData && responseData.alreadyAnswered;
+    return !!responseData && !!responseData.userCorrect;
+  },
+  correct: function(){
+    var responseData = Session.get('responseData');
+    return !!responseData && responseData.userCorrect;
   },
   disableProp : function() {
     var responseData = Session.get('responseData');
-    if(responseData && responseData.alreadyAnswered){
+    if(!!responseData && !!responseData.userChoiceID){
       return 'disabled'
     } else {
       return '';
