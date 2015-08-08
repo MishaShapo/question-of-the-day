@@ -10,7 +10,7 @@
           <form id="response-form">
             {{#each choices}}
               <p class="answerChoice">
-                <input type="radio" name="choice" id="{{index this}}" {{disableProp}}>
+                <input type="radio" name="choice" id="{{index this}}" {{disableProp}} {{checkedProp}}>
                 <label for="{{index this}}">{{this}}</label>
               </p>
             {{/each}}

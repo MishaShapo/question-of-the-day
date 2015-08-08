@@ -2,8 +2,9 @@ Template.question.onCreated(function (){
   var self = this;
   self.ready = new ReactiveVar();
   self.autorun(function() {
-    var handle = QuestionSubs.subscribe('singleQuestion');
-    self.ready.set(handle.ready());
+    var questionHandle = QuestionSubs.subscribe('singleQuestion');
+    var userHandle  = LongSubs.subscribe('userData');
+    self.ready.set(questionHandle.ready() && userHandle.ready());
   });
 });
 
@@ -41,7 +42,7 @@ Template.question.events({
             userChoiceID : choiceID 
           });
       } else{
-        throw new Meteor.Error(error.reason);
+        throw new Meteor.Error(error.message);
       }
     });
   }
@@ -59,7 +60,7 @@ Template.question.helpers({
   },
   alreadyAnswered : function(){
     var responseData = Session.get('responseData');
-    return !!responseData && !!responseData.userCorrect;
+    return !!responseData && responseData.userCorrect !== undefined;
   },
   correct: function(){
     var responseData = Session.get('responseData');
@@ -67,8 +68,16 @@ Template.question.helpers({
   },
   disableProp : function() {
     var responseData = Session.get('responseData');
-    if(!!responseData && !!responseData.userChoiceID){
+    if(!!responseData && responseData.userChoiceID !== undefined){
       return 'disabled'
+    } else {
+      return '';
+    }
+  },
+  checkedProp : function (){
+    var responseData = Session.get('responseData');
+    if(!!responseData && ("choice_" + Questions.findOne().choices.indexOf(this.toString())) === responseData.userChoiceID){
+      return {'checked': 'checked'};
     } else {
       return '';
     }

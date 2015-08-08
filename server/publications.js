@@ -10,3 +10,11 @@ Meteor.publish('singleQuestion', function(){
 Meteor.publish('tags', function(){
   return Tags.find();
 });
+
+Meteor.publish('userData', function(){
+  return Meteor.users.find({_id: this.userId}, {
+    fields: {
+      'tags' : 1
+    }
+  })
+});
