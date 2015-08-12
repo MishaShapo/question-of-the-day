@@ -3,7 +3,7 @@
 My personal project for getting to grips with creating web apps using Meteor
 
 Live site (may not be most current commit) : [mishasqofd.meteor.com](mishasqofd.meteor.com)<br>
-Watch my dev log videos: http://www.youtube.com/c/MichailShaposhnikov 
+
 
 ##Goal
 I am building this simple app to gain experience as a web developer. Using GitHub to track my progress is a good way to manage versions and share my code with others. Once I am finished making the app, I hope to release some tutorials on YouTube (but that might be a *while*) :smile:
@@ -13,13 +13,13 @@ I am building this simple app to gain experience as a web developer. Using GitHu
  - Personal profile with gorgeous graphs and statistics to monitor your progress!
  - Suggest a question and you might get featured on the home page!
  - View public leaderboards to see who's got the brains!
- - Simple and intuitive material design styling!
+ - Simple and intuitive styling!
  
  
 ##TODO
-- [ ] Create schmeas for `users` and for `questions`
+- [x] Create schmeas for `users` and for `questions`
 - [ ] Properly validate user input
-  - [ ] receive validation through console
+  - [x] receive validation through console
   - [ ] add GUI for validation. If user not logged in, offer `Save Answer` which redirects to login/signup GUI
 - [ ] Add user roles so that admins can add question without authentication and users can suggest a question
 - [ ] Create proper leaderboards
