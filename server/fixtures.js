@@ -1,9 +1,9 @@
 if(Tags.find().count() === 0){
  var tags = [
-    {name: 'Math', correct: 0, wrong: 0},
-    {name:'Science', correct: 0, wrong: 0},
-    {name: 'History', correct: 0, wrong: 0},
-    {name:'Literature', correct: 0, wrong: 0}
+    {name: 'Math', correct: 0, wrong: 0, color: "#3182bd"},
+    {name:'Science', correct: 0, wrong: 0,color:"#ad494a"},
+    {name: 'History', correct: 0, wrong: 0,color:"#e7ba52"},
+    {name:'Literature', correct: 0, wrong: 0,color:"#a55194"}
   ];
   for(var i = 0; i < tags.length; i++){
     Tags.insert(tags[i]);

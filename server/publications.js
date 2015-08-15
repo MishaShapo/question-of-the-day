@@ -14,7 +14,8 @@ Meteor.publish('tags', function(){
 Meteor.publish('userData', function(){
   return Meteor.users.find({_id: this.userId}, {
     fields: {
-      'tags' : 1
+      'tags' : 1,
+      'totalQuestionsAnswered' : 1
     }
   })
 });

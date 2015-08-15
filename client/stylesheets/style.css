@@ -10,3 +10,7 @@ input[type="radio"][disabled] + label {
   opacity: 0.4;
   filter: opacity(0.4);
 }
+
+#orbit-visualization {
+  height: 900px;
+}
