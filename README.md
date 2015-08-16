@@ -2,7 +2,7 @@
 
 My personal project for getting to grips with creating web apps using Meteor
 
-Live site (may not be most current commit) : [mishasqofd.meteor.com](mishasqofd.meteor.com)<br>
+Live site (may not be most current commit) : [mishasqofd.meteor.com](http://mishasqofd.meteor.com)<br>
 
 
 ##Goal
