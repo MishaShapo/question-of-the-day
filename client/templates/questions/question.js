@@ -45,15 +45,6 @@ Template.question.events({
         throw new Meteor.Error(error.message);
       }
     });
-  },
-  'click #giveTags' : function() {
-    Accounts.createUser({
-    username: 'MishaShapo',
-    email: 'misha.shapo98@gmail.com',
-    password: 'password',
-    profile: {}
-    });
-    Meteor.call('giveTags');
   }
 });
 

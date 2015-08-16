@@ -1,3 +1,16 @@
 <template name="suggestAQuestion">
   <p>Suggest A Question</p>
+  {{#if ready}}
+    {{#autoForm collection='SuggestedQuestions' id='insertSuggestedQuestionForm' type='insert'}}
+      <fieldset>
+        <legend>Create A Question</legend>
+        {{> afQuickField name='text'}}
+        {{> afArrayField name='choices' template='choices'}}
+        {{> afQuickField name='correctChoice' options="allowed"}}
+        {{> afQuickField name='tag' options=tagOptions}}
+      </fieldset>
+    {{/autoForm}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
 </template>

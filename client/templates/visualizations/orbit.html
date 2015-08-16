@@ -1,6 +1,12 @@
 <template name="orbit">
     <div class="row">
+      {{#if currentUser}}
       <svg id="orbit-visualization">
       </svg>
+      {{else}}
+        <p>Log-in to see your profile, or click the button to get started.</p>
+        <br>
+        <button id='giveTags'>Create User With Tags</button>
+      {{/if}}
     </div>
 </template>

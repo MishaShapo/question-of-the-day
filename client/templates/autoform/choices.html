@@ -1,0 +1,19 @@
+<template name="afArrayField_choices">
+    <div class="panel panel-default">
+     <div class="panel-heading"><label class="control-label">{{afFieldLabelText name=this.atts.name}}</label></div>
+     <ul class="list-group">
+      {{#afEachArrayItem name=this.atts.name}}
+        <li class="list-group-item autoform-array-item">
+          <div class="full-parent-width">
+            <div class="autoform-array-item-body">
+              <div class="form-group custom-form-group" >
+               
+                {{> afQuickField name=this.name label=index class='form-control full-parent-width' }}
+              </div>
+            </div>
+          </div>
+        </li>
+      {{/afEachArrayItem}}
+      </ul>  
+    </div>
+</template>

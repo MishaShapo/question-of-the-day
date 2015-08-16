@@ -33,7 +33,7 @@ Template.orbit.onRendered(function(){
     
     
   self.autorun(function(){
-    if(self.ready.get()){
+    if(self.ready.get() && !!Meteor.user()){
       var tags = Meteor.user().tags;
       if(!tags){return;}
       var dataset = {
@@ -170,5 +170,17 @@ Template.orbit.onRendered(function(){
     orbit.start();
     d3.selectAll("text").remove();
     d3.selectAll("g.node > circle").style("stroke", "none").style("stroke-width", 0); 
+  }
+});
+
+Template.orbit.events({
+  'click #giveTags' : function() {
+    Accounts.createUser({
+    username: 'MishaShapo',
+    email: 'misha.shapo98@gmail.com',
+    password: 'password',
+    profile: {}
+    });
+    Meteor.call('giveTags');
   }
 });
