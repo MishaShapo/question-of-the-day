@@ -3,8 +3,10 @@ Template.question.onCreated(function (){
   self.ready = new ReactiveVar();
   self.autorun(function() {
     var questionHandle = QuestionSubs.subscribe('singleQuestion');
-    var userHandle  = LongSubs.subscribe('userData');
-    self.ready.set(questionHandle.ready() && userHandle.ready());
+    if(questionHandle.ready()){
+      var tagHandle = QuestionSubs.subscribe('singleTag',Questions.findOne().tag);
+    }
+    self.ready.set(questionHandle.ready() && tagHandle.ready());
   });
 });
 
@@ -81,5 +83,15 @@ Template.question.helpers({
     } else {
       return '';
     }
+  },
+  tagColor: function(){
+    //#rrggbb
+    //0123456
+    var hexColor = Tags.findOne().color;
+    var r = parseInt(hexColor.substr(1,2),16);
+    var g = parseInt(hexColor.substr(3,2),16);
+    var b = parseInt(hexColor.substr(5,2),16);
+    
+    return "rgba(" + r + "," + g + "," + b + "," + 0.3 + ")"
   }
 });

@@ -1,14 +1,17 @@
+<!--
 <template name="afArrayField_choices">
     <div class="panel panel-default">
      <div class="panel-heading"><label class="control-label">{{afFieldLabelText name=this.atts.name}}</label></div>
      <ul class="list-group">
       {{#afEachArrayItem name=this.atts.name}}
-        <li class="list-group-item autoform-array-item">
+        <li class="list-group-item autoform-array-item {{amICorrectChoice}}">
           <div class="full-parent-width">
             <div class="autoform-array-item-body">
-              <div class="form-group custom-form-group" >
-               
+              <div class="form-group {{#if afFieldIsInvalid name='choices'}} has-error{{/if}}" >
                 {{> afQuickField name=this.name label=index class='form-control full-parent-width' }}
+              {{#if afFieldIsInvalid name=this.name}}
+                <span class="help-block">{{afFieldMessage name='choices'}}</span>
+              {{/if}}
               </div>
             </div>
           </div>
@@ -16,4 +19,28 @@
       {{/afEachArrayItem}}
       </ul>  
     </div>
+</template>
+-->
+
+
+<template name="afArrayField_choices">
+  <div class="panel panel-default">
+    <div class="panel-heading">{{afFieldLabelText name=this.atts.name}}</div>
+    {{#if afFieldIsInvalid name=this.atts.name}}
+    <div class="panel-body has-error">
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    </div>
+    {{/if}}
+    <ul class="list-group">
+      {{#afEachArrayItem name=this.atts.name}}
+      <li class="list-group-item autoform-array-item {{amICorrectChoice}}">
+        <div class="full-parent-width">
+          <div class="autoform-array-item-body">
+            {{> afQuickField name=this.name label=index class='form-control'}}
+          </div>
+        </div>
+      </li>
+      {{/afEachArrayItem}}
+    </ul>
+  </div>
 </template>

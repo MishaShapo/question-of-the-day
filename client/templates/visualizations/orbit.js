@@ -35,35 +35,40 @@ Template.orbit.onRendered(function(){
   self.autorun(function(){
     if(self.ready.get() && !!Meteor.user()){
       var tags = Meteor.user().tags;
-      if(!tags){return;}
       var dataset = {
         name: Meteor.user().username,
         depth: 0,
         children : []
       };
-      tags.forEach(function(cur,index){
-        var node = {
-          name: cur.name,
-          color: cur.color,
-          children : [
-            {
-              name: 'Correct',
-              size: cur.correct
-            },
-            {
-              name : 'Wrong',
-              size: cur.wrong
-            }
-          ]
-        }
-        dataset.children.push(node);
-      })
+      if(!!tags){
+        tags.forEach(function(cur,index){
+          var node = {
+            name: cur.name,
+            color: cur.color,
+            children : [
+              {
+                name: 'Correct',
+                size: cur.correct
+              },
+              {
+                name : 'Wrong',
+                size: cur.wrong
+              }
+            ]
+          }
+          dataset.children.push(node);
+        })
+      }
 
       drawOrbit(dataset)
     }
   })
   
   function drawOrbit(data){
+    if(data.children.length === 0){
+      d3.select('svg').append('text').text('No data to disaply yet.').attr('y',15).attr('x',15)
+      return;
+    }
     orbit.nodes(data)
     answerRadiusScale = d3.scale.linear().domain([0,Meteor.user().totalQuestionsAnswered]).range([12,75])
     d3.select('#orbit-visualization')
@@ -175,12 +180,7 @@ Template.orbit.onRendered(function(){
 
 Template.orbit.events({
   'click #giveTags' : function() {
-    Accounts.createUser({
-    username: 'MishaShapo',
-    email: 'misha.shapo98@gmail.com',
-    password: 'password',
-    profile: {}
-    });
+    Meteor.loginWithPassword('admin','password');
     Meteor.call('giveTags');
   }
 });

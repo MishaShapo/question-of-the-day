@@ -1,0 +1,12 @@
+<template name='suggestionList'>
+  {{#if subsReady 'suggestedQuestions'}}
+   <p>Suggested Questions: {{numSuggestions}}</p>
+   <ul>
+    {{#each suggestions}}
+      {{> suggestionItem}}
+    {{/each}}
+  </ul>
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

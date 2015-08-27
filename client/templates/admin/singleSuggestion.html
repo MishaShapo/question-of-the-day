@@ -1,0 +1,18 @@
+<template name='singleSuggestion'>
+  {{#if subsReady 'suggestion'}}
+    {{#autoForm collection='SuggestedQuestions' id='singleSuggestionViewForm' type='disabled' doc=suggestionDoc}}
+      <fieldset>
+        <legend>Create A Question</legend>
+        {{> afQuickField name='text' }}
+        {{> afQuickField name='author'}}
+        {{> afArrayField name='choices' template='choices'}}
+        {{> afQuickField name='correctChoice' }}
+        {{> afQuickField name='tag' options=tagOptions}}
+      </fieldset>
+    {{/autoForm}}
+    <button id='approve' class="btn btn-success">Approve</button>
+    <button id='deny' class="btn btn-danger">Deny</button>
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>

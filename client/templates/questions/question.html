@@ -1,12 +1,16 @@
 <template name="question">
- {{#if subReady}}
-   {{#with question}}
+  {{#if subReady}}
+    {{#with question}}
+      {{#if alreadyAnswered}}
+        {{> answerResponse correct=correct}}
+      {{/if}}
+     <div class="tag-color-box" style="background-color: {{tagColor}}">
       <div class="question">
-       {{#if alreadyAnswered}}
-         {{> answerResponse correct=correct}}
-       {{/if}}
         <div class="question-content">
           <h1>{{text}}</h1>
+          <p class="small ">Tag: {{tag}}</p>
+          <p class="small">Author: {{author}}</p>
+          <hr>
           <form id="response-form">
             {{#each choices}}
               <p class="answerChoice">
@@ -21,6 +25,7 @@
           </form>
         </div>
       </div>
+    </div>
     {{/with}}
  {{else}}
    {{> loading}}

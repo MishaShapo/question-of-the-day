@@ -10,7 +10,7 @@ Template.suggestAQuestion.onCreated(function(){
 Template.suggestAQuestion.helpers({
   tagOptions : function() {
     return Tags.find().map(function(t){
-      return {label:t.name,value:t._id}
+      return {label:t.name,value:t.name}
     });
   },
   ready: function(){

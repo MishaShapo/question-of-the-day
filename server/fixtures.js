@@ -8,11 +8,10 @@ if(Tags.find().count() === 0){
   for(var i = 0; i < tags.length; i++){
     Tags.insert(tags[i]);
   }
-  console.log('added 4 tags');
-  console.log('Tags.count : ' + Tags.find().count());
 }
 
 if(Questions.find().count() === 0){
+  var curDate = new Date();
   Questions.insert({
     text: 'What is the capitol of the US?',
     choices: [
@@ -22,8 +21,9 @@ if(Questions.find().count() === 0){
       'New York City'
     ],
     correctChoice: 2,
-    date: new Date().toDateString(),
-    tag: 'History'
+    date: curDate.toDateString(),
+    tag: 'History',
+    author: "MishaShapo"
   });
   
   Questions.insert({
@@ -35,8 +35,9 @@ if(Questions.find().count() === 0){
       'Thomas Edison'
     ],
     correctChoice: 3,
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1).toDateString(),
-    tag: 'Science'
+    date: new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() + 1).toDateString(),
+    tag: 'Science',
+    author: 'MishaShapo'
   });
   
   Questions.insert({
@@ -48,9 +49,30 @@ if(Questions.find().count() === 0){
       'Take care. Bye now.'
     ],
     correctChoice: 1,
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 2).toDateString(),
-    tag: 'Literature' 
+    date: new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() + 2).toDateString(),
+    tag: 'Literature',
+    author: 'MishaShapo'
   });
-  console.log('added 3 questions');
-  console.log('Questions.count : ' +  Questions.find().count());
+}
+
+if(Meteor.users.find().count() === 0){
+  var newId = "";
+  for(var i = 0; i < 20; i++){
+    var randomId = Random.id();
+    newId = Accounts.createUser({
+    username: randomId,
+    email: randomId + '@gmail.com',
+    password: 'password',
+    profile: {}
+    });
+    Meteor.call('giveTags',newId);
+  }
+  var creator = Accounts.createUser({
+    username: 'Admin',
+    email: 'admnin@admin.com',
+    password: 'password',
+    profile: {}
+  });
+  Meteor.call('giveTags',creator);
+  Meteor.call('makeAdmin',creator);
 }

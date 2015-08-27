@@ -6,9 +6,10 @@
         <legend>Create A Question</legend>
         {{> afQuickField name='text'}}
         {{> afArrayField name='choices' template='choices'}}
-        {{> afQuickField name='correctChoice' options="allowed"}}
+        {{> afQuickField name='correctChoice' }}
         {{> afQuickField name='tag' options=tagOptions}}
       </fieldset>
+      <button type="submit" class="btn btn-primary full-parent-width">Suggest!</button>
     {{/autoForm}}
   {{else}}
     {{> loading}}
