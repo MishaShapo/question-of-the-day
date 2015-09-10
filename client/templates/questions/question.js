@@ -3,8 +3,11 @@ Template.question.onCreated(function (){
   self.ready = new ReactiveVar();
   self.autorun(function() {
     var questionHandle = QuestionSubs.subscribe('singleQuestion');
+    var tagHandle; 
     if(questionHandle.ready()){
-      var tagHandle = QuestionSubs.subscribe('singleTag',Questions.findOne().tag);
+      console.log('Question ready',Questions.findOne())
+      console.log('self',self);
+      tagHandle = QuestionSubs.subscribe('singleTag',Questions.findOne().tag);
     }
     self.ready.set(questionHandle.ready() && tagHandle.ready());
   });
